@@ -11,6 +11,8 @@ Then jump to 81 - 99 with several k's at 81 - 85 (but these are < 0.24%) (???)
 select max(dist), max(const), max(ward), max(region) from zambiacensus2010rec2;
 -- 1007 150 33 2
 
+-- Create master table for our project, with wardId and regionId
+drop table if exists censuslabor;
 create table censuslabor as 
 select prov, dist, const, ward, region, 
 p2_membership, p3_rel, p4_sex, p5_age,
@@ -19,12 +21,63 @@ p31_activity_last_7_days, p32_activity_last_12_months, p33_employment_status, p3
 household_size
 from zambiacensus2010rec2;
 
-alter table censuslabor add column wardId integer;
-update censuslabor set wardId = ward + 100 * ( const + 1000 * dist)
---, wregionId = region + 10 * ( ward + 100* ( const + 1000 * dist))
+alter table censuslabor add column wardId integer, add column wardregionId integer;
+update censuslabor set wardId = ward + 100 * ( const + 1000 * dist),
+  wardregionId = region + 10 * ( ward + 100* ( const + 1000 * dist))
+;
+
+drop table if exists censuswardcounts;
+create table censuswardcounts as
+select wardid as ward, count(wardid) as population
+from censuslabor
+group by wardid;
+
+create table censuswardcounts12plus as
+select wardid, count(wardid) as age12plus
+from censuslabor
+where p5_age >= 12
+group by wardid;
+
+create table censuswardlf7days as
+select wardid, count(wardid) as lf7days
+from censuslabor
+where p5_age >= 12 and p31_activity_last_7_days >= 1 and p31_activity_last_7_days <= 7
+group by wardid;
+
+create table censuswardlf12months as
+select wardid, count(wardid) as lf12months
+from censuslabor
+where p5_age >= 12 and p32_activity_last_12_months >= 1 and p32_activity_last_12_months <= 7
+group by wardid;
+
+create table censuswardemployed as
+select wardid, count(wardid) as employed
+from censuslabor
+where p5_age >= 12 and p32_activity_last_12_months >= 1 and p32_activity_last_12_months <= 6
+group by wardid;
+
+create table censuswardunemployed as
+select wardid, count(wardid) as unemployed
+from censuslabor
+where p5_age >= 12 and p32_activity_last_12_months = 7
+group by wardid;
+
+create table censuswardlfemployed as
+select ward, population, age12plus, lf7days, lf12months, employed, unemployed
+ from censuswardcounts full outer join censuswardcounts12plus 
+on censuswardcounts.ward = censuswardcounts12plus.wardid
+full outer join censuswardlf7days 
+on censuswardcounts.ward = censuswardlf7days.wardid 
+full outer join censuswardlf12months 
+on censuswardcounts.ward = censuswardlf12months.wardid
+full outer join censuswardemployed 
+on censuswardcounts.ward = censuswardemployed.wardid
+full outer join censuswardunemployed
+on censuswardcounts.ward = censuswardunemployed.wardid
 ;
 
 
+----------
 select dist, count(dist) from censuslabor group by dist order by dist;
 
 select count(prov), count(dist), count(const), count(ward), count(region), 

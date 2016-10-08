@@ -1,67 +1,4 @@
-drop table if exists censuswardcounts;
-create table censuswardcounts as
-select max(dist) as dist, max(const) as const, max(ward) as ward,
-  wardid, count(wardid) as population
-from censuslabor
-where p2_membership <= 2
-group by wardid;
-
-create temporary table censuswardcounts12plus as
-select wardid, count(wardid) as age12plus
-from censuslabor
-where p5_age >= 12 and p2_membership <= 2
-group by wardid;
-
-create temporary table censuswardlf7days as
-select wardid, count(wardid) as lf7days
-from censuslabor
-where p5_age >= 12 and p31_activity_last_7_days >= 1 and p31_activity_last_7_days <= 7
- and p2_membership <= 2
-group by wardid;
-
-create temporary table censuswardlf12months as
-select wardid, count(wardid) as lf12months
-from censuslabor
-where p5_age >= 12 and p32_activity_last_12_months >= 1 and p32_activity_last_12_months <= 7
- and p2_membership <= 2
-group by wardid;
-
-create temporary table censuswardemployed as
-select wardid, count(wardid) as employed
-from censuslabor
-where p5_age >= 12 and p32_activity_last_12_months >= 1 and p32_activity_last_12_months <= 6
- and p2_membership <= 2
-group by wardid;
-
-create temporary table censuswardunemployed as
-select wardid, count(wardid) as unemployed
-from censuslabor
-where p5_age >= 12 and p32_activity_last_12_months = 7
- and p2_membership <= 2
-group by wardid;
-
-drop table if exists censuswardlfemployed;
-create table censuswardlfemployed as
-select dist, const, ward, wardid, population, age12plus, 
- lf7days, lf12months, employed, unemployed
- from censuswardcounts full outer join censuswardcounts12plus 
-using(wardid)
-full outer join censuswardlf7days 
-using(wardid)
-full outer join censuswardlf12months 
-using(wardid)
-full outer join censuswardemployed 
-using(wardid)
-full outer join censuswardunemployed
-using(wardid)
-;
-drop table if exists censuswardunemployed;
-drop table if exists censuswardemployed;
-drop table if exists censuswardlf12months;
-drop table if exists censuswardlf7days;
-drop table if exists censuswardcounts12plus;
-
-
+----------------------------------------------
 
 drop table if exists censuswardlfemployedgis;
 create table censuswardlfemployedgis as 
@@ -124,30 +61,30 @@ Other
 INDUSTRY CODE: checked that match and that <3 digits areok with table
 
 */
-select dist, count(dist) from censuslabor group by dist order by dist;
+select dist, count(dist) from thiscase group by dist order by dist;
 
 select count(prov), count(dist), count(const), count(ward), count(region), 
 count(p2_membership), count(p3_rel), count(p4_sex), count(p5_age),
 count(p28_highest_level), count(p29_high_vocation), 
 count(p31_activity_last_7_days), count(p32_activity_last_12_months), count(p33_employment_status), count(p34_occupation), count(p35_industry),
 count(household_size)
-from censuslabor;
+from thiscase;
 
 select count(prov), 
 count(p28_highest_level), count(p29_high_vocation)
-from censuslabor
+from thiscase
 where p5_age >= 5;
 -- There are 10'974,677, but only 8'124,869 and 10'311,427
 
 select count (prov), 
 count(p31_activity_last_7_days), count(p32_activity_last_12_months), count(p33_employment_status), count(p34_occupation), count(p35_industry)
-from censuslabor
+from thiscase
 where p5_age >= 12;
 -- There are 8'269,365, but only 7'715,022 have on activity (but then OK for last three based on activity)
 
 select count (prov), 
 count(p31_activity_last_7_days), count(p32_activity_last_12_months), count(p33_employment_status), count(p34_occupation), count(p35_industry)
-from censuslabor
+from thiscase
 where p5_age >= 12 and p32_activity_last_12_months <= 6;
 -- for all (3'887,052)
 

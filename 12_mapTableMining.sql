@@ -1,10 +1,23 @@
--- Totals for the population
+-- Totals for the mining 
+/*
+11 - 32 "Agriculture" 
+51 - 99 "Mining" 
+101 - 332 "Manufacturing" 
+351 - 390 "Public utilities" 
+410 - 439 "Construction"  
+451 - 479 "Commerce" 
+491 - 639 "Transport and Comnunications" 
+641 - 829 "Financial and Business Services" 
+841 - 843 "Public Administration" 
+851 - 990 "Other Services, Unspecified"
+*/
 
 drop table if exists thiscase;
 create temporary table thiscase as
 select *
 from censuslabor
-where p2_membership <= 2;
+where p2_membership <= 2
+ and p35_industry >= 51 and p35_industry <= 99;
 
 drop table if exists censuswardcounts;
 create temporary table censuswardcounts as
@@ -63,8 +76,8 @@ from thiscase
 where p5_age >= 12 and p32_activity_last_12_months = 7
 group by wardid;
 
-drop table if exists censuswardLaborAll;
-create table censuswardLaborAll as
+drop table if exists censuswardLaborMining;
+create table censuswardLaborMining as
 select dist, const, ward, wardid, population, pop12plus, 
  lf7days, lf12months, empl7days, empl12months, unem7days, unem12months
  from censuswardcounts full outer join censuswardcounts12plus 
@@ -82,7 +95,6 @@ using(wardid)
 full outer join censuswardunem12months
 using(wardid)
 ;
-
 drop table if exists censuswardunem7days;
 drop table if exists censuswardempl7days;
 drop table if exists censuswardunem12months;

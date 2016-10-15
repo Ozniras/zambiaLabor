@@ -1,11 +1,25 @@
--- Totals for the population aged 16-35
+-- Totals for the occupation, service and sales 
+/*
+1 digit occupational classification
+1 "Senior officials" 
+2 "Professionals" 
+3 "Technicians" 
+4 "Clerks" 
+5 "Service and market sales workers" 
+6 "Skilled agricultural" 
+7 "Craft workers" 
+8 "Machine operators" 
+9 "Elementary occupations" 
+10 "Armed forces"  
+99 "Others"
+*/
 
 drop table if exists thiscase;
 create temporary table thiscase as
 select *
 from censuslabor
 where p2_membership <= 2
- and p5_age >= 16 and p5_age <= 35;
+ and p34_occupation >= 511 and p34_occupation <= 523;
 
 drop table if exists censuswardcounts;
 create temporary table censuswardcounts as
@@ -64,8 +78,8 @@ from thiscase
 where p5_age >= 12 and p32_activity_last_12_months = 7
 group by wardid;
 
-drop table if exists censuswardLabor1635;
-create table censuswardLabor1635 as
+drop table if exists censuswardLaborOccServices;
+create table censuswardLaborOccServices as
 select dist, const, ward, wardid, population, pop12plus, 
  lf7days, lf12months, empl7days, empl12months, unem7days, unem12months
  from censuswardcounts full outer join censuswardcounts12plus 

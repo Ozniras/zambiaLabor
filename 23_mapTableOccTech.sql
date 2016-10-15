@@ -1,9 +1,17 @@
--- Totals for the skilled population
-
+-- Totals for the occupation, technicians
 /*
-There is a 1:1 match between p28_highest_level <=13 and p_29_high_vocation == 1
-and p28 >= 14 and p_29 >= 2
-Also, diploma and certificate are post secondary.
+1 digit occupational classification
+1 "Senior officials" 
+2 "Professionals" 
+3 "Technicians" 
+4 "Clerks" 
+5 "Service and market sales workers" 
+6 "Skilled agricultural" 
+7 "Craft workers" 
+8 "Machine operators" 
+9 "Elementary occupations" 
+10 "Armed forces"  
+99 "Others"
 */
 
 drop table if exists thiscase;
@@ -11,14 +19,14 @@ create temporary table thiscase as
 select *
 from censuslabor
 where p2_membership <= 2
- and p29_high_vocation > 1;
+ and p34_occupation >= 311 and p34_occupation <= 348;
 
 drop table if exists censuswardcounts;
 create temporary table censuswardcounts as
 select max(dist) as dist, max(const) as const, max(ward) as ward,
   wardid, count(wardid) as population
 from censuslabor
-where p2_membership <= 2 
+where p2_membership <= 2
 group by wardid;
 
 drop table if exists censuswardcounts12plus;
@@ -70,8 +78,8 @@ from thiscase
 where p5_age >= 12 and p32_activity_last_12_months = 7
 group by wardid;
 
-drop table if exists censuswardLaborSkilled;
-create table censuswardLaborSkilled as
+drop table if exists censuswardLaborOccTechnicians;
+create table censuswardLaborOccTechnicians as
 select dist, const, ward, wardid, population, pop12plus, 
  lf7days, lf12months, empl7days, empl12months, unem7days, unem12months
  from censuswardcounts full outer join censuswardcounts12plus 

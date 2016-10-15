@@ -1,9 +1,16 @@
--- Totals for the unskilled population
-
+-- Totals for the occupation, elementary occupations
 /*
-There is a 1:1 match between p28_highest_level <=13 and p_29_high_vocation == 1
-and p28 >= 14 and p_29 >= 2
-Also, diploma and certificate are post secondary.
+1 "Senior officials" 
+2 "Professionals" 
+3 "Technicians" 
+4 "Clerks" 
+5 "Service and market sales workers" 
+6 "Skilled agricultural" 
+7 "Craft workers" 
+8 "Machine operators" 
+9 "Elementary occupations" 
+10 "Armed forces"  
+99 "Others"
 */
 
 drop table if exists thiscase;
@@ -11,7 +18,7 @@ create temporary table thiscase as
 select *
 from censuslabor
 where p2_membership <= 2
- and p29_high_vocation = 1;
+ and p34_occupation >= 911 and p34_occupation <= 933;
 
 drop table if exists censuswardcounts;
 create temporary table censuswardcounts as
@@ -70,8 +77,8 @@ from thiscase
 where p5_age >= 12 and p32_activity_last_12_months = 7
 group by wardid;
 
-drop table if exists censuswardLaborUnskilled;
-create table censuswardLaborUnskilled as
+drop table if exists censuswardLaborOccElement;
+create table censuswardLaborOccElement as
 select dist, const, ward, wardid, population, pop12plus, 
  lf7days, lf12months, empl7days, empl12months, unem7days, unem12months
  from censuswardcounts full outer join censuswardcounts12plus 

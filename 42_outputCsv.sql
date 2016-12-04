@@ -24,6 +24,8 @@ copy censuswardlabormale to '/home/ram22/dataDrive/dataProjects/povMap/zambiaLFS
 
 copy censuswardlabormanufacture to '/home/ram22/dataDrive/dataProjects/povMap/zambiaLFSmapping/3_csvOutput/censuswardlabormanufacture.csv' with csv header;
 
+copy censuswardlaborotherindustry to '/home/ram22/dataDrive/dataProjects/povMap/zambiaLFSmapping/3_csvOutput/censuswardlaborotherindustry.csv' with csv header;
+
 copy censuswardlabormining to '/home/ram22/dataDrive/dataProjects/povMap/zambiaLFSmapping/3_csvOutput/censuswardlabormining.csv' with csv header;
 
 copy censuswardlaboroccclerks to '/home/ram22/dataDrive/dataProjects/povMap/zambiaLFSmapping/3_csvOutput/censuswardlaboroccclerks.csv' with csv header;

@@ -44,7 +44,22 @@ temp$eduEvrSchl <- df$S2Q2
 temp$eduLvlAch <- df$S2Q3
 temp$eduNowSchl <- df$S2Q4
 
-lfs2008 <- merge(lfs2008, temp, by = c('prov', 'dist', 'const', 'ward', 'csa', 'sea', 'sbn', 'hun', 'hhn', 'category', 'pn'))
+nrow(lfs2008)
+nrow(temp)
+lfs2008$inDem <- TRUE
+temp$inEdu <- TRUE 
+lfs2008 <- merge(lfs2008, temp, by=c('prov', 'dist', 'const', 'ward', 'csa', 'sea', 'sbn', 'hun', 'hhn', 'category', 'pn'), all=TRUE)
+nrow(filter(lfs2008, is.na(inDem) & inEdu == TRUE))
+summary(lfs2008$demAge[lfs2008$inDem == TRUE & is.na(lfs2008$inEdu)])
+nrow(filter(lfs2008, inDem == TRUE & is.na(inEdu)))
+nrow(filter(lfs2008, inDem == TRUE & is.na(inEdu) & demAge > 5))
+# There are 220 in Edu who are not in Demographics
+# Of the 24,037 in Demog not in Edu, all only 314 are over 5 years old 
+
+nrow(filter(lfs2008, round(weight, 4) != round(weightCHECK, 4)))
+# This one case is the same at one decimal place. Since the original weight (wgt) is at 2dp, will keep weight
+nrow(filter(lfs2008, region != regionCHECK))
+lfs2008 <- select(lfs2008, -c(weightCHECK, regionCHECK))
 
 rm(list=c('temp', 'df'))
 
@@ -60,7 +75,21 @@ temp$usBusType <- df$S4Q11
 temp$usEmpEmplStat <- df$S4Q12
 temp$usEmplHrs <- df$S4Q17
 
-lfs2008 <- merge(lfs2008, temp, by = c('prov', 'dist', 'const', 'ward', 'csa', 'sea', 'sbn', 'hun', 'hhn', 'category', 'pn'))
+nrow(lfs2008)
+nrow(temp)
+temp$inUsEmpl <- TRUE 
+lfs2008 <- merge(lfs2008, temp, by=c('prov', 'dist', 'const', 'ward', 'csa', 'sea', 'sbn', 'hun', 'hhn', 'category', 'pn'), all=TRUE)
+nrow(filter(lfs2008, is.na(inDem) & inUsEmpl == TRUE))
+summary(lfs2008$demAge[lfs2008$inDem == TRUE & is.na(lfs2008$inUsEmpl)])
+nrow(filter(lfs2008, inDem == TRUE & is.na(inUsEmpl)))
+nrow(filter(lfs2008, inDem == TRUE & is.na(inUsEmpl) & demAge > 5))
+# There are 431 in UsEmpl who are not in Demographics
+# Of the 25,569 in Demog not in UsEmpl, 1,670 are over 5 years old
+
+nrow(filter(lfs2008, round(weight, 4) != round(weightCHECK2, 4)))
+# This one case is the same at one decimal place. Since the original weight (wgt) is at 2dp, will keep weight
+nrow(filter(lfs2008, region != regionCHECK2))
+lfs2008 <- select(lfs2008, -c(weightCHECK2, regionCHECK2))
 
 rm(list=c('temp', 'df'))
 
@@ -71,7 +100,28 @@ names(temp) <- c('prov', 'dist', 'const', 'ward', 'csa', 'sea', 'regionCHECK3', 
 temp$incFreq <- df$S5Q1
 temp$incTotal <- df$S5Q2
 
-lfs2008 <- merge(lfs2008, temp, by = c('prov', 'dist', 'const', 'ward', 'csa', 'sea', 'sbn', 'hun', 'hhn', 'category', 'pn'))
+nrow(lfs2008)
+nrow(temp)
+temp$inInc <- TRUE 
+lfs2008 <- merge(lfs2008, temp, by=c('prov', 'dist', 'const', 'ward', 'csa', 'sea', 'sbn', 'hun', 'hhn', 'category', 'pn'), all=TRUE)
+nrow(filter(lfs2008, is.na(inDem) & inInc == TRUE))
+summary(lfs2008$demAge[lfs2008$inDem == TRUE & is.na(lfs2008$inInc)])
+nrow(filter(lfs2008, inDem == TRUE & is.na(inInc)))
+nrow(filter(lfs2008, inDem == TRUE & is.na(inInc) & demAge > 5))
+# There are 65 in UsEmpl who are not in Demographics
+# Of the 92,127 in Demog not in UsEmpl, 61,930 are over 5 years old
+
+nrow(filter(lfs2008, round(weight, 4) != round(weightCHECK3, 4)))
+# This one case is the same at one decimal place. Since the original weight (wgt) is at 2dp, will keep weight
+nrow(filter(lfs2008, region != regionCHECK3))
+lfs2008 <- select(lfs2008, -c(weightCHECK3, regionCHECK3))
+lfs2008 <- select(lfs2008, -(regionCHECK3))
+
+rm(list=c('temp', 'df'))
 
 write.csv(lfs2008, '2_data/lfs2008Ready.csv')
 save(lfs2008, file = '2_data/lfs2008Ready.Rda')
+
+################
+
+lfs2008 <- load('2_data/lfs2008Ready.Rda')

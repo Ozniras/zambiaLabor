@@ -1,0 +1,5 @@
+**/*.gz
+**/*.png
+**/*.swp
+**/.ipynb_checkpoints/
+_temp/**

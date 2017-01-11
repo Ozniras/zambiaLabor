@@ -119,3 +119,82 @@ from zambiacensussample group by prov, ward, region
 order by prov, ward, region
 )
 select count(*) as frequency from zambiacensussample;
+
+
+select count(p2_membership) from zambiacensus2010rec2 where p2_membership is not null;
+
+/* Total at or above 5 years: 10'974,677 */
+
+select p8_zambian, count(p8_zambian) 
+from zambiacensus2010rec2 
+where p5_age >= 5
+group by p8_zambian;
+
+/*
+For all:
+43,867 not zambian (but 729,926 missing)
+*/
+select count(p2_membership) from zambiacensus2010rec2 where p8_zambian is null;
+/* count  
+--------
+ 729,946
+
+
+At or above 5:
+p8_zambian |  count   
+------------+----------
+            |        0
+          1 | 10271721
+          2 |    39706
+-----------------------
+                10'311,427
+So missing = 663,250
+*/
+
+select count(case when trim(both ' ' from p6_pob) ~ '^[!0-9]+$' then 1 end) as proper, 
+count(case when trim(both ' ' from p6_pob) !~ '^[!0-9]+$' then 1 end) as improper 
+from zambiacensus2010rec2
+where p5_age >= 5;
+
+/*
+ proper  | improper 
+----------+----------
+ 12382087 |   874173 = 13256260
+ 
+764894 are blank
+
+where p5_age >= 5
+  proper  | improper 
+----------+----------
+ 10180482 |   794195 = 10974677
+ so 7% of those age at or above 5 are incorrect or missing
+*/
+
+select count(case when trim(both ' ' from p14_prev_res) ~ '^[!0-9]+$' then 1 end) as proper, 
+count(case when trim(both ' ' from p14_prev_res) !~ '^[!0-9]+$' then 1 end) as improper 
+from zambiacensus2010rec2
+where p5_age >= 5;
+
+/*
+  proper  | improper 
+----------+----------
+ 12514971 |   741289  = 13256260
+
+with 729946 missing
+
+
+where p5_age >= 5
+   proper  | improper 
+----------+----------
+ 10301629 |   673048 = 10974677
+ (so improper = 6% of those age at or above 5)
+
+ 
+ 
+ 
+ p8_zambian
+ Blank 0
+ 1 12482447
+ 2 43867
+*/ 
+

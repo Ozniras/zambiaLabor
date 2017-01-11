@@ -1,57 +1,27 @@
--- Totals for the unskilled population
+-- Totals for the laboer force born elsewhere
 
-/*
-There is a 1:1 match between p28_highest_level <=13 and p_29_high_vocation == 1
-and p28 >= 14 and p_29 >= 2
-Also, diploma and certificate are post secondary.
-0 is none
-<= 6 is none or primary incomplete
-grade 7 is primary complete
-8 - 12 is secondary, with 12 secondary complete
-13 is some college
-*/
-
+-- In labor force over last 12 months
 drop table if exists thiscase;
 create temporary table thiscase as
 select *
 from censuslabor
 where p2_membership <= 2
- and p28_highest_level <= 6;
+and p5_age >= 12 and p32_activity_last_12_months >= 1 and p32_activity_last_12_months <= 7
+;
 
-drop table if exists censuswardcounts;
-create temporary table censuswardcounts as
-select max(dist) as dist, max(const) as const, max(ward) as ward,
-  wardid, count(wardid) as population
-from censuslabor
-where p2_membership <= 2
-group by wardid;
-
-drop table if exists censuswardcounts12plus;
-create temporary table censuswardcounts12plus as
-select wardid, count(wardid) as pop12plus
-from thiscase
-where p5_age >= 12
-group by wardid;
-
-drop table if exists censuswardlf7days;
-create temporary table censuswardlf7days as
-select wardid, count(wardid) as lf7days
-from thiscase
-where p5_age >= 12 and p31_activity_last_7_days >= 1 and p31_activity_last_7_days <= 7
-group by wardid;
-
+-- Population in lf for 12 months
 drop table if exists censuswardlf12months;
 create temporary table censuswardlf12months as
 select wardid, count(wardid) as lf12months
 from thiscase
-where p5_age >= 12 and p32_activity_last_12_months >= 1 and p32_activity_last_12_months <= 7
+-- and p5_age >= 12 and p32_activity_last_12_months >= 1 and p32_activity_last_12_months <= 7
 group by wardid;
 
-drop table if exists censuswardempl7days;
-create temporary table censuswardempl7days as
-select wardid, count(wardid) as empl7days
+drop table if exists censuswardlfbornelsewhere;
+create temporary table censuswardlfbornelsewhere as
+select wardid, count(wardid) as lf12months
 from thiscase
-where p5_age >= 12 and p31_activity_last_7_days >= 1 and p31_activity_last_7_days <= 6
+and p6_pob != dist
 group by wardid;
 
 drop table if exists censuswardempl12months;
@@ -59,13 +29,6 @@ create temporary table censuswardempl12months as
 select wardid, count(wardid) as empl12months
 from thiscase
 where p5_age >= 12 and p32_activity_last_12_months >= 1 and p32_activity_last_12_months <= 6
-group by wardid;
-
-drop table if exists censuswardunem7days;
-create temporary table censuswardunem7days as
-select wardid, count(wardid) as unem7days
-from thiscase
-where p5_age >= 12 and p31_activity_last_7_days = 7
 group by wardid;
 
 drop table if exists censuswardunem12months;

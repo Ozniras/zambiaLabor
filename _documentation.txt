@@ -209,5 +209,6 @@ Province in census has TWO characters, but questionnaire only has 1. What is pro
 District in census has four characters, but questionnaire only has 3. What are districts
 1001 - 1007?
 Pressumably, province 10 is the new province? (District contains province)
+But answers to p6_pob and p14_prev_res only have three characters!
 
 

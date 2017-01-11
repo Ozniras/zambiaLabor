@@ -53,13 +53,14 @@ from censuslabor
 group by p2_membership, p3_rel
 order by p2_membership, p3_rel;
 
-select count(case when trim(both ' ' from p6_pob) ~ '^[!0-9]+$' then 1 end) as proper, 
-count(case when trim(both ' ' from p6_pob) !~ '^[!0-9]+$' then 1 end) as improper 
+-- overkill: p6_pob is set as char3 so no spaces in front or behind above 3 characters
+select count(case when trim(both ' ' from p6_pob) ~ '^[0-9]+$' then 1 end) as proper, 
+count(case when trim(both ' ' from p6_pob) !~ '^[0-9]+$' then 1 end) as improper 
 from zambiacensus2010rec2
 where p5_age >= 5;
 
-select count(case when trim(both ' ' from p6_pob) ~ '^[!0-9]+$' then 1 end) as proper, 
-count(case when trim(both ' ' from p6_pob) !~ '^[!0-9]+$' then 1 end) as improper 
+select count(case when trim(both ' ' from p14_prev_res) ~ '^[0-9]+$' then 1 end) as proper, 
+count(case when trim(both ' ' from p14_prev_res) !~ '^[0-9]+$' then 1 end) as improper 
 from zambiacensus2010rec2
 where p5_age >= 5;
 
@@ -79,3 +80,12 @@ update censuslabor set wardId = ward + 100 * ( const + 1000 * dist),
   hhdId = hhn + 100 * (hun + 1000 * (cbn + 10000 * (sea + 10 * (csa + 100 * cast(wardregionId as numeric(10,0))))))
 ;
 
+update censuslabor set
+p6_pob = case when p6_pob ~ '^[0-9]+$' then p6_pob end,
+p14_prev_res = case when p14_prev_res ~ '^[0-9]+$' then p14_prev_res end
+;
+
+alter table censuslabor
+ alter column p6_pob set data type smallint using p6_pob::smallint,
+ alter column p14_prev_res set data type smallint using p14_prev_res::smallint
+;

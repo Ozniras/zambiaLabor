@@ -1,3 +1,9 @@
+Census asks edu questions for 5 and older;
+but employment question s for 12 and older
+LFS 2008 asks employment questions for 5 and older
+but INCOME questions to 15 and older
+LFS 2012 asks employment and income to 5 and older
+
 ----------------------------------------------
 
 drop table if exists censuswardlfemployedgis;
@@ -197,4 +203,11 @@ where p5_age >= 5
  1 12482447
  2 43867
 */ 
+
+More issues for migration:
+Province in census has TWO characters, but questionnaire only has 1. What is province 10?
+District in census has four characters, but questionnaire only has 3. What are districts
+1001 - 1007?
+Pressumably, province 10 is the new province? (District contains province)
+
 

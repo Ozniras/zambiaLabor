@@ -12,14 +12,14 @@ and p5_age >= 12 and p32_activity_last_12_months >= 1 and p32_activity_last_12_m
 -- Population in lf for 12 months
 drop table if exists censuswardlf12months;
 create temporary table censuswardlf12months as
-select wardid, count(wardid) as lf12months
+select max(dist) as dist, max(const) as const, max(ward) as ward, wardid, count(wardid) as lf12months
 from thiscase
 -- and p5_age >= 12 and p32_activity_last_12_months >= 1 and p32_activity_last_12_months <= 7
 group by wardid;
 
 drop table if exists censuswardlfMigrBorn;
 create temporary table censuswardlfMigrBorn as
-select wardid, count(wardid) as lf12months
+select wardid, count(wardid) as lfMigrBorn
 from thiscase
 where p6_pob != dist
 group by wardid;
@@ -33,7 +33,7 @@ group by wardid;
 
 drop table if exists censuswardemplMigrBorn;
 create temporary table censuswardemplMigrBorn as
-select wardid, count(wardid) as empl12months
+select wardid, count(wardid) as emplMigrBorn
 from thiscase
 where p5_age >= 12 and p32_activity_last_12_months >= 1 and p32_activity_last_12_months <= 6
 and p6_pob != dist
@@ -48,7 +48,7 @@ group by wardid;
 
 drop table if exists censuswardunemMigrBorn;
 create temporary table censuswardunemMigrBorn as
-select wardid, count(wardid) as unem12months
+select wardid, count(wardid) as unemMigrBorn
 from thiscase
 where p5_age >= 12 and p32_activity_last_12_months = 7
 and p6_pob != dist

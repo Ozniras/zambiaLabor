@@ -125,3 +125,9 @@ save(lfs2008, file = '2_data/lfs2008Ready.Rda')
 ################
 
 lfs2008 <- load('2_data/lfs2008Ready.Rda')
+
+lfs2008 <- read.csv('2_data/lfs2008Ready.csv')
+lfs2008 <- lfs2008[lfs2008$demAge >= 15 & lfs2008$usEmpLfStat <= 7 & lfs2008$usEmpLfExtr != FALSE,]
+# income questions are for at or over 15, with LF status from in paid employment to retired, and answered yes 
+# to at least one of the "did you work at least one hour in" questions (or NA to all of them)
+

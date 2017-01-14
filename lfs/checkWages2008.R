@@ -1,3 +1,4 @@
+library(doBy)
 library(survey)
 library(foreign)
 library(dplyr)
@@ -131,3 +132,43 @@ lfs2008 <- lfs2008[lfs2008$demAge >= 15 & lfs2008$usEmpLfStat <= 7 & lfs2008$usE
 # income questions are for at or over 15, with LF status from in paid employment to retired, and answered yes 
 # to at least one of the "did you work at least one hour in" questions (or NA to all of them)
 
+# unskilled labor: eduLvlAch <= 6 primary incomplete
+# semi-skilled: eduLvlAch > 7 and <  14 
+# skilled: eduLvlAch >= 14 college complete
+
+table(lfs2008$usEmpInd)
+# 11 - 32 "Agriculture" 
+# 51 - 99 "Mining" 
+# 101 - 332 "Manufacturing" 
+# 351 - 390 "Public utilities" 
+# 410 - 439 "Construction"  
+# 451 - 479 "Commerce" 
+# 491 - 639 "Transport and Comnunications" 
+# 641 - 829 "Financial and Business Services" 
+# 841 - 843 "Public Administration" 
+# 851 - 990 "Other Services, Unspecified"
+# However, numbers above 999. Probably a fourth digit of precision, so divide by 10 and keep int
+
+table(lfs2008$usWrkType)
+# 1 Permanent 2 Fixed Period 3 Temporary 4 Part-Time 5 Seasonal 9 Don't know
+
+table(lfs2008$usBusType) # Business type (1 Central Gov etc)
+table(lfs2008$usEmpEmplStat) # Empl status: 1 Self employed, 2 Employer, 3 paid employee, 4 unpaid family worker, 5 Other
+
+# outcomes: usEmplHrs, incTotal (incFreq, but total should be monthly earnings)
+lfs2008$skill <- 1 * (lfs2008$eduLvlAch <= 6) + 2 * (lfs2008$eduLvlAch > 6 & lfs2008$eduLvlAch < 14) + 3 * (lfs2008$eduLvlAch >= 14)
+
+summary(lfs2008$usEmplHrs)
+summary(lfs2008$incTotal)
+
+summaryBy(usEmplHrs + incTotal ~ prov, data = lfs2008, FUN = function(x) {c(m = mean(x, na.rm = TRUE), s = sd(x, na.rm = TRUE))})
+
+summaryBy(usEmplHrs + incTotal ~ skill, data = lfs2008, FUN = function(x) {c(m = mean(x, na.rm = TRUE), s = sd(x, na.rm = TRUE))})
+
+summaryBy(usEmplHrs + incTotal ~ prov + skill, data = lfs2008, FUN = function(x) {c(m = mean(x, na.rm = TRUE), s = sd(x, na.rm = TRUE))})
+
+summaryBy(usEmplHrs + incTotal ~ usWrkType, data = lfs2008, FUN = function(x) {c(m = mean(x, na.rm = TRUE), s = sd(x, na.rm = TRUE))})
+
+summaryBy(usEmplHrs + incTotal ~ usEmpEmplStat, data = lfs2008, FUN = function(x) {c(m = mean(x, na.rm = TRUE), s = sd(x, na.rm = TRUE))})
+
+summaryBy(usEmplHrs + incTotal ~ skill + usEmpEmplStat + usWrkType, data = lfs2008, FUN = function(x) {c(m = mean(x, na.rm = TRUE), s = sd(x, na.rm = TRUE))})

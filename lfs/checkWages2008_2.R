@@ -19,15 +19,29 @@ setwd('~/dataDrive/dataProjects/povMap/zambiaLFSmapping/')
 load('2_data/lfs2008Ready.Rda')
 # lfs2008 <- read.csv('2_data/lfs2008Ready.csv')
 
-lfs2008 <- lfs2008[lfs2008$demAge >= 15 & lfs2008$usEmpLfStat <= 7 & lfs2008$usEmpLfExtr != FALSE,]
+lfs2008 <- lfs2008[lfs2008$demAge >= 15 & lfs2008$usEmpLfStat <= 7 & (lfs2008$usEmpLfExtr == TRUE | is.na(lfs2008$usEmpLfExtr)),]
 # income questions are for at or over 15, with LF status from in paid employment to retired, and answered yes 
 # to at least one of the "did you work at least one hour in" questions (or NA to all of them)
 
-# unskilled labor: eduLvlAch <= 6 primary incomplete
-# semi-skilled: eduLvlAch > 7 and <  14 
-# skilled: eduLvlAch >= 14 college complete
+table(lfs2008$demSex)
+lfs2008$demSex <- factor(lfs2008$demSex, levels = c('1', '2'), labels = c('Male', 'Female'))
+table(lfs2008$demSex)
 
-table(lfs2008$usEmpInd)
+
+# 0 is none
+# <= 6 is none or primary incomplete
+# grade 7 is primary complete
+# 8 - 12 is secondary, with 12 secondary complete
+# 13 is some college
+# unskilled labor: eduLvlAch <= 6 primary incomplete
+# semi-skilled: eduLvlAch > 6 and <  14 
+# skilled: eduLvlAch >= 14 college complete
+table(lfs2008$eduLvlAch)
+lfs2008$eduLvlAch <- cut(lfs2008$eduLvlAch, 
+                        c(-Inf, 6, 13, Inf), 
+                        labels = c('Unskilled', 'Semi-skilled', 'Skilled'))
+table(lfs2008$eduLvlAch)
+
 # 11 - 32 "Agriculture, Forestry and Fishing" 
 # 51 - 99 "Mining" 
 # 101 - 332 "Manufacturing" 
@@ -44,8 +58,6 @@ table(lfs2008$usEmpInd)
 # We first will turn those to 1010 and 1110 so they become manufacturing
 lfs2008$usEmpInd[lfs2008$usEmpInd == 11] <- 111
 lfs2008$usEmpInd[lfs2008$usEmpInd == 101 | lfs2008$usEmpInd == 110] <- 1010
-table(lfs2008$usEmpInd)
-
 lfs2008$usEmpInd <- cut(as.integer(lfs2008$usEmpInd / 100), 
                         c(0, 3, 9, 33, 39, 43, 47, 63, 82, 84, 99), 
                         labels = c('Agriculture', 'Mining', 'Manufacturing', 'Public utilities', 'Construction', 'Commerce', 'Transport and Comm', 'Fin and Bus serv', 'Public Admin', 'Other serv'))
@@ -58,7 +70,6 @@ table(lfs2008$usBusType) # Business type (1 Central Gov etc)
 table(lfs2008$usEmpEmplStat) # Empl status: 1 Self employed, 2 Employer, 3 paid employee, 4 unpaid family worker, 5 Other
 
 # outcomes: usEmplHrs, incTotal (incFreq, but total should be monthly earnings)
-lfs2008$skill <- 1 * (lfs2008$eduLvlAch <= 6) + 2 * (lfs2008$eduLvlAch > 6 & lfs2008$eduLvlAch < 14) + 3 * (lfs2008$eduLvlAch >= 14)
 
 summary(lfs2008$usEmplHrs)
 summary(lfs2008$incTotal)

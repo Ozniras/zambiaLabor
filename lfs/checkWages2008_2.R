@@ -23,6 +23,12 @@ lfs2008 <- lfs2008[lfs2008$demAge >= 15 & lfs2008$usEmpLfStat <= 7 & (lfs2008$us
 # income questions are for at or over 15, with LF status from in paid employment to retired, and answered yes 
 # to at least one of the "did you work at least one hour in" questions (or NA to all of them)
 
+table(lfs2008$prov)
+lfs2008$prov <- factor(lfs2008$prov, levels = c('1', '2', '3', '4', '5', '6', '7', '8', '9'),
+                       labels = c('Central', 'Copperbelt', 'Eastern', 'Luapula', 'Lusaka', 'Northern', 'Northwestern', 'Southern', 'Western'))
+table(lfs2008$prov)
+
+                       
 table(lfs2008$demSex)
 lfs2008$demSex <- factor(lfs2008$demSex, levels = c('1', '2'), labels = c('Male', 'Female'))
 table(lfs2008$demSex)
@@ -65,9 +71,35 @@ table(lfs2008$usEmpInd)
 
 table(lfs2008$usWrkType)
 # 1 Permanent 2 Fixed Period 3 Temporary 4 Part-Time 5 Seasonal 9 Don't know
+# 6 is an error, we'll put in 9
+lfs2008$usWrkType[lfs2008$usWrkType == 6] <- 9
+lfs2008$usWrkType <- factor(lfs2008$usWrkType, levels = c('1', '2', '3', '4', '5', '9'), 
+                            labels = c('Permanent', 'Fixed period', 'Temporary', 'Part-time', 'Seasonal', "Don't know"))
+table(lfs2008$usWrkType)
 
 table(lfs2008$usBusType) # Business type (1 Central Gov etc)
+lfs2008$usBusType <- factor(lfs2008$usBusType, levels = c('1', '2', '3', '4', '5', '6', '7'),
+                            labels = c())
+
 table(lfs2008$usEmpEmplStat) # Empl status: 1 Self employed, 2 Employer, 3 paid employee, 4 unpaid family worker, 5 Other
+lfs2008$usEmpEmplStat <- factor(lfs2008$usEmpEmplStat, levels = c('1', '2', '3', '4', '5'),
+                                labels = c('Self employed', 'Employer', 'Paid employee', 'Unpaid family worker', 'Other'))
+table(lfs2008$usEmpEmplStat) 
+
+# Totals for the occupation, professionals 
+# 1 "Senior officials, managers" 
+# 2 "Professionals" 
+# 3 "Technicians" 
+# 4 "Clerks" 
+# 5 "Service and market sales workers" 
+# 6 "Skilled agricultural" 
+#0 7 "Craft workers" 
+# 8 "Machine operators" 
+# 9 "Elementary occupations" 
+# 10  or 0 "Armed forces"  
+# 99 "Others"
+
+  
 
 # outcomes: usEmplHrs, incTotal (incFreq, but total should be monthly earnings)
 

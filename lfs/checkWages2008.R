@@ -184,6 +184,7 @@ lfs2008$usEmpEmplStat <- factor(lfs2008$usEmpEmplStat, levels = c('1', '2', '3',
                                 labels = c('Self employed', 'Employer', 'Paid employee', 'Unpaid family worker', 'Other'))
 table(lfs2008$usEmpEmplStat) 
 
+table(lfs2008$usEmpOcc)
 # Totals for the occupation, professionals 
 # 1 "Senior officials, managers" 
 # 2 "Professionals" 
@@ -191,11 +192,16 @@ table(lfs2008$usEmpEmplStat)
 # 4 "Clerks" 
 # 5 "Service and market sales workers" 
 # 6 "Skilled agricultural" 
-#0 7 "Craft workers" 
+# 7 "Craft workers" 
 # 8 "Machine operators" 
 # 9 "Elementary occupations" 
 # 10  or 0 "Armed forces"  
 # 99 "Others"
+lfs2008$usEmpOcc <- factor(as.integer(substr(lfs2008$usEmpOcc, 1, 1)), 
+                           levels = c('1', '2', '3', '4', '5', '6', '7', '8', '9', '0'),
+                           labels = c('Senior, managers', 'Professionals', 'Technicians', 'Clerks', 'Service and market sales', 
+                                      'Skilled agricultural', 'Craft', 'Machine operators', 'Elementary occupations', 'Armed forces'))
+table(lfs2008$usEmpOcc)
 
 
 

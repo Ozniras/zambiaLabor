@@ -55,7 +55,7 @@ summary(lfs2008$demAge[lfs2008$inDem == TRUE & is.na(lfs2008$inEdu)])
 nrow(filter(lfs2008, inDem == TRUE & is.na(inEdu)))
 nrow(filter(lfs2008, inDem == TRUE & is.na(inEdu) & demAge > 5))
 # There are 220 in Edu who are not in Demographics
-# Of the 24,037 in Demog not in Edu, all only 314 are over 5 years old 
+# Of the 24,037 in Demog not in Edu, only 314 are over 5 years old 
 
 nrow(filter(lfs2008, round(weight, 4) != round(weightCHECK, 4)))
 # This one case is the same at one decimal place. Since the original weight (wgt) is at 2dp, will keep weight

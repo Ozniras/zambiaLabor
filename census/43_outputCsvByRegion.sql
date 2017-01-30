@@ -10,5 +10,5 @@ create table censuswardrurallaborall as
 select * from censuswardregionlaborall
 where region = 1;
 
-copy censuswardurbanlaborall to '/home/ram22/dataDrive/dataProjects/povMap/zambiaLFSmapping/3_csvOutput/censuswardrurallaborall.csv' with csv header;
+copy censuswardrurallaborall to '/home/ram22/dataDrive/dataProjects/povMap/zambiaLFSmapping/3_csvOutput/censuswardrurallaborall.csv' with csv header;
 

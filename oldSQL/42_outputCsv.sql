@@ -1,12 +1,10 @@
 copy censuswardlabor1524 to '/home/ram22/dataDrive/dataProjects/povMap/zambiaLFSmapping/3_csvOutput/censuswardlabor1524.csv' with csv header;
 
-copy censuswardlabor1564 to '/home/ram22/dataDrive/dataProjects/povMap/zambiaLFSmapping/3_csvOutput/censuswardlabor1564.csv' with csv header;
-
 copy censuswardlabor2564 to '/home/ram22/dataDrive/dataProjects/povMap/zambiaLFSmapping/3_csvOutput/censuswardlabor2564.csv' with csv header;
 
-copy censuswardlaboragriculture to '/home/ram22/dataDrive/dataProjects/povMap/zambiaLFSmapping/3_csvOutput/censuswardlaboragriculture.csv' with csv header;
+copy censuswardlaboragriculture1564 to '/home/ram22/dataDrive/dataProjects/povMap/zambiaLFSmapping/3_csvOutput/censuswardlaboragriculture1564.csv' with csv header;
 
-copy censuswardlaborall to '/home/ram22/dataDrive/dataProjects/povMap/zambiaLFSmapping/3_csvOutput/censuswardlaborall.csv' with csv header;
+copy censuswardlaborall1564 to '/home/ram22/dataDrive/dataProjects/povMap/zambiaLFSmapping/3_csvOutput/censuswardlaborall1564.csv' with csv header;
 
 copy censuswardlaborempstatemployeepaid to '/home/ram22/dataDrive/dataProjects/povMap/zambiaLFSmapping/3_csvOutput/censuswardlaborempstatemployeepaid.csv' with csv header;
 
@@ -18,15 +16,15 @@ copy censuswardlaborempstatselfagric to '/home/ram22/dataDrive/dataProjects/povM
 
 copy censuswardlaborempstatselfnonagric to '/home/ram22/dataDrive/dataProjects/povMap/zambiaLFSmapping/3_csvOutput/censuswardlaborempstatselfnonagric.csv' with csv header;
 
-copy censuswardlaborfemale to '/home/ram22/dataDrive/dataProjects/povMap/zambiaLFSmapping/3_csvOutput/censuswardlaborfemale.csv' with csv header;
+copy censuswardlaborfemale1564 to '/home/ram22/dataDrive/dataProjects/povMap/zambiaLFSmapping/3_csvOutput/censuswardlaborfemale1564.csv' with csv header;
 
-copy censuswardlabormale to '/home/ram22/dataDrive/dataProjects/povMap/zambiaLFSmapping/3_csvOutput/censuswardlabormale.csv' with csv header;
+copy censuswardlabormale1564 to '/home/ram22/dataDrive/dataProjects/povMap/zambiaLFSmapping/3_csvOutput/censuswardlabormale1564.csv' with csv header;
 
-copy censuswardlabormanufacture to '/home/ram22/dataDrive/dataProjects/povMap/zambiaLFSmapping/3_csvOutput/censuswardlabormanufacture.csv' with csv header;
+copy censuswardlabormanufacture1564 to '/home/ram22/dataDrive/dataProjects/povMap/zambiaLFSmapping/3_csvOutput/censuswardlabormanufacture1564.csv' with csv header;
 
-copy censuswardlaborotherindustry to '/home/ram22/dataDrive/dataProjects/povMap/zambiaLFSmapping/3_csvOutput/censuswardlaborotherindustry.csv' with csv header;
+copy censuswardlaborotherindustry1564 to '/home/ram22/dataDrive/dataProjects/povMap/zambiaLFSmapping/3_csvOutput/censuswardlaborotherindustry1564.csv' with csv header;
 
-copy censuswardlabormining to '/home/ram22/dataDrive/dataProjects/povMap/zambiaLFSmapping/3_csvOutput/censuswardlabormining.csv' with csv header;
+copy censuswardlabormining1564 to '/home/ram22/dataDrive/dataProjects/povMap/zambiaLFSmapping/3_csvOutput/censuswardlabormining1564.csv' with csv header;
 
 copy censuswardlaboroccclerks to '/home/ram22/dataDrive/dataProjects/povMap/zambiaLFSmapping/3_csvOutput/censuswardlaboroccclerks.csv' with csv header;
 
@@ -48,12 +46,12 @@ copy censuswardlaboroccskilledagric to '/home/ram22/dataDrive/dataProjects/povMa
 
 copy censuswardlaborocctechnicians to '/home/ram22/dataDrive/dataProjects/povMap/zambiaLFSmapping/3_csvOutput/censuswardlaborocctechnicians.csv' with csv header;
 
-copy censuswardlaborotherindustry to '/home/ram22/dataDrive/dataProjects/povMap/zambiaLFSmapping/3_csvOutput/censuswardlaborotherindustry.csv' with csv header;
+copy censuswardlaborotherindustry1564 to '/home/ram22/dataDrive/dataProjects/povMap/zambiaLFSmapping/3_csvOutput/censuswardlaborotherindustry1564.csv' with csv header;
 
-copy censuswardlaborsemiskilled to '/home/ram22/dataDrive/dataProjects/povMap/zambiaLFSmapping/3_csvOutput/censuswardlaborsemiskilled.csv' with csv header;
+copy censuswardlaborsemiskilled1564 to '/home/ram22/dataDrive/dataProjects/povMap/zambiaLFSmapping/3_csvOutput/censuswardlaborsemiskilled1564.csv' with csv header;
 
-copy censuswardlaborskilled to '/home/ram22/dataDrive/dataProjects/povMap/zambiaLFSmapping/3_csvOutput/censuswardlaborskilled.csv' with csv header;
+copy censuswardlaborskilled1564 to '/home/ram22/dataDrive/dataProjects/povMap/zambiaLFSmapping/3_csvOutput/censuswardlaborskilled1564.csv' with csv header;
 
-copy censuswardlaborunskilled to '/home/ram22/dataDrive/dataProjects/povMap/zambiaLFSmapping/3_csvOutput/censuswardlaborunskilled.csv' with csv header;
+copy censuswardlaborunskilled1564 to '/home/ram22/dataDrive/dataProjects/povMap/zambiaLFSmapping/3_csvOutput/censuswardlaborunskilled1564.csv' with csv header;
 
 

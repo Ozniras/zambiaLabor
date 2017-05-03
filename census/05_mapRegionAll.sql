@@ -9,7 +9,7 @@ where p2_membership <= 2 and p5_age >= 15 and p5_age <= 64;
 drop table if exists censuswardregioncounts;
 create temporary table censuswardregioncounts as
 select max(dist) as dist, max(const) as const, max(ward) as ward, max(region) as region,
-  max(wardid) as wardid, wardregionid, count(wardregionid) as population
+  max(wardid) as wardid, wardregionid, count(wardregionid) as population1564
 from censuslabor
 where p2_membership <= 2 and p5_age >= 15 and p5_age <= 64
 group by wardregionid;
@@ -62,9 +62,9 @@ from thiscase
 where p32_activity_last_12_months = 7
 group by wardregionid;
 
-drop table if exists censuswardregionLaborAll1564;
-create table censuswardregionLaborAll1564 as
-select dist, const, ward, region, wardid, wardregionid, population, popthiscase, 
+drop table if exists censuswardregionLabor1564;
+create table censuswardregionLabor1564 as
+select dist, const, ward, region, wardid, wardregionid, population1564, popthiscase, 
  lf7days, lf12months, empl7days, empl12months, unem7days, unem12months
  from censuswardregioncounts full outer join censuswardregioncountsthiscase 
 using(wardregionid)
@@ -82,7 +82,7 @@ full outer join censuswardregionunem12months
 using(wardregionid)
 ;
 
-drop table if exists censuswardregionLaborAll;
+drop table if exists censuswardregionLaborAll1564;
 
 drop table if exists censuswardregionunem7days;
 drop table if exists censuswardregionempl7days;
